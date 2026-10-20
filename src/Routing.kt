@@ -1,18 +1,23 @@
 package com.example
 import io.ktor.http.ContentType
 import io.ktor.server.application.*
+import io.ktor.server.http.content.staticResources
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
     routing {
+    staticResources("/content","mycontent")
         get("/") {
             call.respondText("Hello, World!")
         }
-        get("test1"){
+        get("/test1"){
             val text = "<h1> Hello from Ktor </h1>"
             val type = ContentType.parse("text/html")
             call.respondText(text,type)
+        }
+        get("/sample") {
+            call.respondResource("mycontent/sample.html")
         }
     }
 }
