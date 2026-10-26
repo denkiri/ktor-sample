@@ -1,11 +1,11 @@
 package com.example
-import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
+import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.http.content.staticResources
-import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.http.content.*
+import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import com.example.model.*
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -28,6 +28,12 @@ fun Application.configureRouting() {
         }
         get("/error-test") {
             throw IllegalStateException("Too Busy")
+        }
+        get("/tasks") {
+            call.respondText(
+                contentType = ContentType.parse("text/html"),
+                text = tasks.tasksAsTable()
+            )
         }
     }
 }
