@@ -4,6 +4,7 @@ dependencies:
   - $ktor.server.config.yaml
   - $ktor.server.core
   - $ktor.server.netty
+  - $ktor.server.statusPages
   - $libs.logback.classic
 
 test-dependencies:

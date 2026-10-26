@@ -1,11 +1,18 @@
 package com.example
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.http.content.staticResources
+import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
+    install(StatusPages) {
+        exception<IllegalStateException> { call, cause ->
+            call.respondText("App in illegal state as ${cause.message}")
+        }
+    }
     routing {
     staticResources("/content","mycontent")
         get("/") {
@@ -18,6 +25,9 @@ fun Application.configureRouting() {
         }
         get("/sample") {
             call.respondResource("mycontent/sample.html")
+        }
+        get("/error-test") {
+            throw IllegalStateException("Too Busy")
         }
     }
 }
